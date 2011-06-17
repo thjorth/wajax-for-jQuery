@@ -1,2 +1,8 @@
 h1. wajax for jQuery
 
+Wajax is an extension to jQuery's ajax implementation. The extension relies completely on jQuery's underlying ajax implementation. The difference is that wajax makes it a lot easier to handle pages where you rely on several ajax requests to complete before doing stuff with the data you receive.
+
+One example could be if you need to load data using one ajax request and fetching an html template using another request. In this case you have to make sure that both requests have completed before building your UI. Off course, this could be accomplished in other ways than using wajax but wajax does provide an easy-to-understand solution for this particular problem.
+
+The task above could also be solved by using the jQuery built-in <em>ajaxStop</em> event. However, wajax offers a few more benefits over this:
+
