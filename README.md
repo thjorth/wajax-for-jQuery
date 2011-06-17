@@ -19,29 +19,63 @@ In short you can use $.wajax anywhere you use the $.ajax method. The $.wajax tak
 
 Making a wajax request can be as simple as this:
 
-<a href="https://gist.github.com/1031267">Example 1</a>
-<script src="https://gist.github.com/1031267.js?file=gistfile1.js"></script>
+	$.wajax({
+	  url: "data/chapter1.html",
+	  success: function (data) { console.log( data ); }
+	});
+
+<a href="https://gist.github.com/1031267">Example 1 Gist</a>
 
 Doing the above will launch an ajax request for the <em>data/chapter1.html</em> file. The ajax will be executed immediately and will complete asynchronously as soon as the server can respond. However, the anonymous callback function is not executed. Yet.
 
 To make sure the callback is invoked you will have to do this as well:
 
-<a href="https://gist.github.com/1031273">Example 2</a>
-<script src="https://gist.github.com/1031273.js?file=gistfile1.js"></script>
+	$.wajax("go");
+
+<a href="https://gist.github.com/1031273">Example 2 Gist</a>
 
 When you call <em>$.wajax("go")</em> you tell wajax that you now are ready for your callbacks to be invoked. At the same time it groups all the wajax requests that have been made since the last <em>$.wajax("go")</em> command. Even though you have told wajax that you're ready to process the callbacks you can still be certain that your callbacks will *not* be invoked until all requests in the group has completed. You can also rely on your callbacks to be executed in the same order you made the requests - not in the order the requests complete.
 
 If you don't care about the order of execution of the callbacks but just want to make sure that all requests have completed before proceeding you can do it like this:
 
-<a href="https://gist.github.com/1031286">Example 3</a>
-<script src="https://gist.github.com/1031286.js?file=gistfile1.js"></script>
+	$.wajax("go", function() {
+	  console.log("All grouped ajax requests have completed!");
+	});
+
+<a href="https://gist.github.com/1031286">Example 3 Gist</a>
 
 ## What makes it better than jQuery's ajaxStop event?
 
 Suppose you have a page with two widgets that are created dynamically after page load. The first one relies on the result of two ajax requests for data and one request for a template. The other widget relies on one ajax request for data and one request for a template. Using wajax you could accomplish this task like this:
 
-<a href="https://gist.github.com/1031322">Example 4</a>
-<script src="https://gist.github.com/1031322.js?file=gistfile1.js"></script>
+	/*
+	* Widget 1
+	*/
+	// create two wajax request for the data for widget 1
+	$.wajax( { url: "data/data-for-widget-1.json", success: function (data) { /* Store data */ } } );
+	$.wajax( { url: "data/more-data-for-widget-1.json", success: function (data) { /* Store more data */ } } );
+
+	// create a wajax request for the template
+	$.wajax( { url: "templates/widget-1.tmpl", success: function (data) { /* Store the template */ } } );
+
+	// call $.wajax("go") to instruct wajax to group the wajax request we just made and to tell it
+	// we're ready for the callbacks to be invoked.
+	$.wajax("go", function() { /* Build widget 1 using the template and the result from the data requests */ });
+
+	/*
+	* Widget 2
+	*/
+	// create a wajax request for the data for widget 2
+	$.wajax( { url: "data/data-for-widget-2.json", success: function (data) { /* Store data */ } } );
+
+	// create a wajax request for the template
+	$.wajax( { url: "templates/widget-2.tmpl", success: function (data) { /* Store the template */ } } );
+
+	// call $.wajax("go") to instruct wajax to group the wajax request we just made and to tell it
+	// we're ready for the callbacks to be invoked.
+	$.wajax("go", function() { /* Build widget 2 using the template and the result from the data request */ });
+
+<a href="https://gist.github.com/1031322">Example 4 Gist</a>
 
 The benefit of using the above method is that even if the request for "data/data-for-widget-1.json" turns out to be really slow widget 2 will still be built as soon as the requests for the widget 2 data and the widget 2 template have completed.
 
