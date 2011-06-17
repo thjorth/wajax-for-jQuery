@@ -51,6 +51,7 @@ Suppose you have a page with two widgets that are created dynamically after page
 	/*
 	* Widget 1
 	*/
+	
 	// create two wajax request for the data for widget 1
 	$.wajax( { url: "data/data-for-widget-1.json", success: function (data) { /* Store data */ } } );
 	$.wajax( { url: "data/more-data-for-widget-1.json", success: function (data) { /* Store more data */ } } );
@@ -65,6 +66,7 @@ Suppose you have a page with two widgets that are created dynamically after page
 	/*
 	* Widget 2
 	*/
+	
 	// create a wajax request for the data for widget 2
 	$.wajax( { url: "data/data-for-widget-2.json", success: function (data) { /* Store data */ } } );
 
