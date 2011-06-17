@@ -4,7 +4,7 @@ For instructions go to the project home at https://github.com/thjorth/wajax-for-
 Created by Thomas Hjorth courtesy of Valtech Denmark (http://www.valtech.dk)
 Contact: thomas.hjorth@valtech.dk or thjorth74@gmail.com
 github username: thjorth
-Version: 0.9
+Version: 1.0
 Updated: June 17, 2011
 License: MIT
 
