@@ -25,7 +25,8 @@ Doing the above will launch an ajax request for the <em>data/chapter1.html</em> 
 
 To make sure the callback is invoked you will have to do this as well:
 
-https://gist.github.com/1031273.js?file=gistfile1.js
+<a href="https://gist.github.com/1031273.js?file=gistfile1.js">Example 1</a>
+
 <script src="https://gist.github.com/1031273.js?file=gistfile1.js"></script>
 
 When you call <em>$.wajax("go")</em> you tell wajax that you now are ready for your callbacks to be invoked. At the same time it groups all the wajax requests that have been made since the last <em>$.wajax("go")</em> command. Even though you have told wajax that you're ready to process the callbacks you can still be certain that your callbacks will *not* be invoked until all requests in the group has completed. You can also rely on your callbacks to be executed in the same order you made the requests - not in the order the requests complete.
