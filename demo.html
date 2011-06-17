@@ -7,6 +7,20 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 	<script src="source/wajax.js"></script>
 	<script>
+
+// create two wajax request for the data for widget 1
+$.wajax( { url: "data/data-for-widget-1.json", success: function (data) { /* Store data */ } } );
+$.wajax( { url: "data/more-data-for-widget-1.json", success: function (data) { /* Store more data */ } } );
+
+// create a wajax request for the template
+$.wajax( { url: "templates/widget-1.tmpl", success: function (data) { /* Store the template */ } } );
+
+// call $.wajax("go") to instruct wajax to group the wajax request we just made and to tell it
+// we're ready for the callbacks to be invoked.
+$.wajax("go", function() { /* Build widget one using the template and the result from the data requests */})
+
+
+
 		$(function() {
 			function callback(html) {
 				$("#book").append(html);
