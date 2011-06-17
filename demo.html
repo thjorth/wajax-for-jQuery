@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#book	{ border: solid 1px #aaa; min-height: 200px; }
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="source/wajax.js"></script>
+	<script>
+		$(function() {
+			function callback(html) {
+				$("#book").append(html);
+			}
+			
+			$("#ajaxLoad").click(function() {
+				$("#book").html("");
+				$.ajax({ url: "example/data/chapter1.html", success: callback, cache: false });
+				$.ajax({ url: "example/data/chapter2.html", success: callback, cache: false });
+				$.ajax({ url: "example/data/chapter3.html", success: callback, cache: false });
+				$.ajax({ url: "example/data/chapter4.html", success: callback, cache: false });
+			});
+			
+			$("#wajaxLoad").click(function() {
+				$("#book").html("");
+				$.wajax({ url: "example/data/chapter1.html", success: callback, cache: false });
+				$.wajax({ url: "example/data/chapter2.html", success: callback, cache: false });
+				$.wajax({ url: "example/data/chapter3.html", success: callback, cache: false });
+				$.wajax({ url: "example/data/chapter4.html", success: callback, cache: false });
+				$.wajax("go", function() {
+					$("#book").append("<p><em>All chapters inserted in correct order</em></p>");
+				});
+			});
+			
+		});
+	</script>
+</head>
+<body>
+	<h1>wajax for jQuery demo</h1>
+	
+	<p>
+		<em><strong>Important:</strong> To try this demo you need to have a local webserver setup and serving files 
+		from the folder into which you have cloned this repository.</em>
+	</p>
+	
+	<p>
+		To demonstrate the wajax extension let's first load four chapters of a fictional book into the box below using regular
+		ajax. We'll do so by creating four ajax requests - one for each chapter like this:
+	</p>
+	
+	<script src="https://gist.github.com/1031162.js?file=gistfile1.js"></script>
+	
+	<p>
+		Go ahead. Press the first button. Now if you're running Chrome you might always get the chapters in the correct order
+		but try firing up Safari or Firefox instead and see what happens. You will most likely get <em>Chapter One</em>
+		inserted at the end as it has been weighed down with a huge html comment. 
+	</p>
+
+	<button id="ajaxLoad">Load book with ajax (scroll down to see the result)</button>
+	<hr/>
+	
+	<p>
+		The second button is using wajax for loading in the four chapters. The click handler for that button looks like this:
+	</p>
+	
+	<script src="https://gist.github.com/1031196.js?file=gistfile1.js"></script>
+	
+	<p>
+		Notice that the only difference is that we're using $.wajax instead of $.ajax and that once all the requests have been
+		started a call to <em>$.wajax("go")</em> is made. This instructs wajax that all the needed requests have been started
+		and that we're ready to process the callbacks. It's possible to add an optional function parameter after the <em>"go"</em>
+		string of a final callback that is executed once all the other callbacks have been processed in order.
+	</p>
+	
+	
+	<button id="wajaxLoad">Load book with <strong>wajax</strong></button>
+	
+	<hr/>
+	
+	<div id="book">
+	
+	</div>
+	
+	<h2>Explanation</h2>
+	<p>
+		This example demonstrates getting four chapters of a book with four different ajax reques
+		ts. The first button will
+		fetch the four chapters using regular ajax which means that there's no guarantee in which order the individual ajax requests
+		will complete. This is off course the correct behavior and what puts the 'Asynchronous' into Ajax. However, there's also no 
+		guarantee of the order in which the different callbacks area invoked. This makes it more difficult to append the content
+		in the right order.
+	</p>
+	<p>
+		The second demonstrates getting the same four chapters using wajax. All requests are still startet the moment you call the
+		wajax method and subsequent wajax requests are also executed in parallel. Just like with normal ajax requests there is no 
+		guarantee in which order the individual requests are completed. The difference is that the callbacks are all executed
+		in the order in which the requests were made. In other words the callbacks are postponed until requests are complete.
+	¨</p>
+	<p>
+		This off course not meant to replace all existing ajax usages. The example on this page is also a constructed example and
+		I'm in no way suggesting this is the smartest way to solve this particular 'problem'. What I am suggesting is that there
+		are situations where the wajax behavior is beneficial. For instance if you want to build a page (or part of a page) where
+		data form several ajax requests need to be available before building. This also opens up for the possibility of loading
+		page/widget templates and data using seperate ajax requests.
+	</p>
+	
+</body>
+</html>
